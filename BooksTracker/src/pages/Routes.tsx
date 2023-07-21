@@ -3,17 +3,7 @@ import {Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../global/theme';
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-      <View style={{backgroundColor: '#fff', width: 200, height: 200}}>
-        <Icon name="home" size={160} color="red" />
-      </View>
-    </View>
-  );
-}
+import Home from './home';
 
 function SettingsScreen() {
   return (
@@ -30,14 +20,11 @@ export default function Routes() {
     <Tab.Navigator
       screenOptions={() => ({
         tabBarScrollEnabled: true,
-        tabBarActiveTintColor: '#000',
-        tabBarInactiveTintColor: '#fff',
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.black,
         tabBarStyle: {
           height: 60,
-          backgroundColor: '#fff',
-        },
-        tabBarIndicatorStyle: {
-          backgroundColor: '#blue',
+          backgroundColor: theme.colors.white,
         },
         tabBarLabelStyle: {
           fontSize: 14,
@@ -47,25 +34,25 @@ export default function Routes() {
       })}>
       <Tab.Screen
         options={{
-          tabBarIcon: () => (
-            <Icon name="home" size={30} color={theme.colors.black} />
-          ),
+          tabBarIcon: ({color}) => <Icon name="home" size={30} color={color} />,
         }}
-        name="Home"
-        component={HomeScreen}
+        name="Início"
+        component={Home}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icon name="home" size={30} color="blue" />,
+          tabBarIcon: ({color}) => (
+            <Icon name="plus-circle" size={45} color={color} />
+          ),
         }}
-        name="Settings"
+        name="Adicionar livro"
         component={SettingsScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: () => <Icon name="book" size={30} color="blue" />,
+          tabBarIcon: ({color}) => <Icon name="book" size={30} color={color} />,
         }}
-        name="Books"
+        name="Meus Livros"
         component={SettingsScreen}
       />
     </Tab.Navigator>
