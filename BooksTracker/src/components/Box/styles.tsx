@@ -5,15 +5,14 @@ export const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     borderRadius: 10,
-    opacity: 0.75,
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: theme.colors.primary,
-    minHeight: '48%',
-    width: '90%',
+    height: '68%',
+    width: '95%',
   },
   iconContainer: {
-    minWidth: '10%',
+    minWidth: '4%',
     margin: 10,
   },
   content: {

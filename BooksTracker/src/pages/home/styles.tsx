@@ -27,4 +27,9 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.black,
   },
+  readingBooks: {
+    zIndex: -1,
+    alignItems: 'center',
+    bottom: '5%',
+  },
 });

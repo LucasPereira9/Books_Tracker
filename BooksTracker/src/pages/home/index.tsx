@@ -16,7 +16,7 @@ export default function Home() {
           <Text style={styles.subtitle}>Que livro você leu hoje?</Text>
         </View>
       </View>
-      <View>
+      <View style={styles.readingBooks}>
         <ReadingBooks />
       </View>
     </View>

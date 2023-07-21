@@ -1,6 +1,7 @@
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
 import Box from '../Box';
+import BookInfo from '../BookInfo';
 
 export default function ReadingBooks() {
   const ref = React.useRef<FlatList>(null);
@@ -36,12 +37,12 @@ export default function ReadingBooks() {
     return (
       <View
         style={{
-          width: 180,
-          backgroundColor: findex === index ? '#000' : '#fff',
-          margin: 15,
+          minWidth: 260,
+          height: 200,
+          marginRight: 18,
         }}
         key={findex}>
-        <Text>{item.name}</Text>
+        <BookInfo />
       </View>
     );
   };
@@ -62,6 +63,7 @@ export default function ReadingBooks() {
         content={
           <View>
             <FlatList
+              scrollEnabled={false}
               ref={ref}
               initialScrollIndex={index}
               keyExtractor={item => item.key}
