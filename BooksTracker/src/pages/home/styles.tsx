@@ -35,14 +35,19 @@ export const styles = StyleSheet.create({
   },
   listContent: {
     minWidth: 260,
-    height: 200,
+    height: '100%',
     marginRight: 18,
   },
-  scrollContent: {
-    margin: 10,
+  recomendationTitle: {
+    marginHorizontal: 15,
   },
   RecomendationContainer: {
     alignItems: 'center',
-    marginVertical: 33,
+    marginVertical: 30,
+    height: '60%',
+  },
+  recomendationContent: {
+    height: '100%',
+    top: 2,
   },
 });

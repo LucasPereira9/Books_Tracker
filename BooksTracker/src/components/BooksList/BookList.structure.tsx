@@ -4,4 +4,5 @@ export interface IBookList {
   data: any;
   renderItem: ListRenderItem<any>;
   title?: string;
+  isScrollEnabled: boolean;
 }

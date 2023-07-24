@@ -31,6 +31,7 @@ export default function Home() {
       </View>
       <View style={styles.readingBooks}>
         <BooksList
+          isScrollEnabled={false}
           title="Meus Livros"
           data={test}
           renderItem={({item, index: findex}) => {
@@ -42,23 +43,27 @@ export default function Home() {
           }}
         />
       </View>
-      <ScrollView style={styles.scrollContent}>
-        <Text style={styles.title}>Recomendações:</Text>
-
-        <View style={styles.RecomendationContainer}>
-          <BooksList
-            title="Porque voce está lendo: It a coisa"
-            data={test2}
-            renderItem={({item, index: findex}) => {
-              return (
-                <View style={{height: 165, top: 2}}>
-                  <RecommendationList key={item.id} image={item.image} />
-                </View>
-              );
-            }}
-          />
+      <View>
+        <View style={styles.recomendationTitle}>
+          <Text style={styles.title}>Recomendações:</Text>
         </View>
-      </ScrollView>
+        <View>
+          <View style={styles.RecomendationContainer}>
+            <BooksList
+              isScrollEnabled={true}
+              title="Porque voce está lendo: It a coisa"
+              data={test2}
+              renderItem={({item, index: findex}) => {
+                return (
+                  <View key={findex} style={styles.recomendationContent}>
+                    <RecommendationList key={item.id} image={item.image} />
+                  </View>
+                );
+              }}
+            />
+          </View>
+        </View>
+      </View>
     </View>
   );
 }

@@ -62,7 +62,7 @@ export default function BooksList(props: IBookList) {
               </TouchableOpacity>
             ) : (
               <FlatList
-                scrollEnabled={false}
+                scrollEnabled={props.isScrollEnabled}
                 ref={ref}
                 initialScrollIndex={index}
                 keyExtractor={item => item.key}
