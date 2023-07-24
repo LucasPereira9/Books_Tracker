@@ -4,4 +4,5 @@ export interface IBoxProps {
   content: React.ReactNode;
   isIconLeftVisible: boolean;
   isIconRightVisible: boolean;
+  title?: string;
 }

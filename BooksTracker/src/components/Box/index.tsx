@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Text} from 'react-native';
 import {styles} from './styles';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +9,9 @@ import {IBoxProps} from './Box.structure';
 export default function Box(props: IBoxProps) {
   return (
     <View style={styles.container}>
+      <View style={styles.titleContent}>
+        <Text style={styles.title}>{props.title}</Text>
+      </View>
       <TouchableOpacity
         onPress={props.leftIconFunction}
         activeOpacity={0.8}
