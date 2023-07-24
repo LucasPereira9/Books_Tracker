@@ -2,7 +2,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   imageContent: {
-    height: '100%',
+    top: 8,
+    height: '90%',
     width: '100%',
   },
   imageContainer: {

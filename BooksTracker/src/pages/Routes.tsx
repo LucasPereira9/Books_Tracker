@@ -26,6 +26,7 @@ export default function Routes() {
           height: 60,
           backgroundColor: theme.colors.white,
         },
+
         tabBarLabelStyle: {
           fontSize: 14,
           fontFamily: 'Roboto-Bold',

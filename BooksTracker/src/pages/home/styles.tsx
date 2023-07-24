@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     zIndex: -1,
     alignItems: 'center',
     bottom: '5%',
-    height: '30%',
+    height: '32%',
   },
   listContent: {
     minWidth: 260,
@@ -43,8 +43,8 @@ export const styles = StyleSheet.create({
   },
   RecomendationContainer: {
     alignItems: 'center',
-    marginVertical: 30,
-    height: '60%',
+    marginVertical: 20,
+    height: '62%',
   },
   recomendationContent: {
     height: '100%',
