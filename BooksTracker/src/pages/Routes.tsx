@@ -4,6 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../global/theme';
 import Home from './home';
+import MyBooksPage from './myBooks';
 
 function SettingsScreen() {
   return (
@@ -43,7 +44,7 @@ export default function Routes() {
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
-            <Icon name="plus-circle" size={45} color={color} />
+            <Icon name="plus-circle" size={42} color={color} />
           ),
         }}
         name="Adicionar livro"
@@ -54,7 +55,7 @@ export default function Routes() {
           tabBarIcon: ({color}) => <Icon name="book" size={30} color={color} />,
         }}
         name="Meus Livros"
-        component={SettingsScreen}
+        component={MyBooksPage}
       />
     </Tab.Navigator>
   );

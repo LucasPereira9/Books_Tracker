@@ -28,7 +28,7 @@ export default function BookInfo(props: IBookInfoProps) {
               color={theme.colors.primary}
               styleAttr="Horizontal"
               indeterminate={false}
-              progress={0.3}
+              progress={props.progress}
             />
           </View>
         </View>

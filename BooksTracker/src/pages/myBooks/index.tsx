@@ -1,42 +1,31 @@
-import React, {FunctionComponent} from 'react';
+import React from 'react';
 import {View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import theme from '../../../global/theme';
+import {styles} from './styles';
+import InProgressBoks from './inProgress';
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function MyTabs({TabScreens}: {TabScreens: any}) {
-  const renderList = React.useMemo(() => {
-    return TabScreens.map((item: ITopNavigatorProps, index: number) => (
-      <Tab.Screen
-        key={index}
-        name={item.name}
-        component={item.component as FunctionComponent<{}>}
-      />
-    ));
-  }, []);
-
+export default function MyBooksPage() {
   return (
     <View style={styles.container}>
       <Tab.Navigator
         screenOptions={() => ({
-          tabBarScrollEnabled: true,
-          tabBarActiveTintColor: organization.settings.PERSONAL.primary_color,
-          tabBarInactiveTintColor: colors.black,
-          tabBarStyle: {
-            backgroundColor: colors['gray-100'],
-          },
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.black,
           tabBarIndicatorStyle: {
-            backgroundColor: organization.settings.PERSONAL.primary_color,
+            backgroundColor: theme.colors.primary,
           },
           tabBarLabelStyle: {
             fontSize: 14,
-            fontFamily: 'Roboto-Bold',
           },
         })}
         style={styles.tabNavigatorStyle}>
-        {renderList}
+        <Tab.Screen name={'Atuais'} component={InProgressBoks} />
+        <Tab.Screen name={'Futuras'} component={InProgressBoks} />
+        <Tab.Screen name={'Finalizados'} component={InProgressBoks} />
       </Tab.Navigator>
     </View>
   );
