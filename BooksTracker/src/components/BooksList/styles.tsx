@@ -18,4 +18,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 12,
   },
+  progressBar: {
+    marginTop: '25%',
+  },
 });
