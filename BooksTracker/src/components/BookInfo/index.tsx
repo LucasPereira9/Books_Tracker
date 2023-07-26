@@ -11,10 +11,7 @@ export default function BookInfo(props: IBookInfoProps) {
       <View style={styles.content}>
         <View style={styles.bookContent}>
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.imageContent}
-              source={require('../../assets/images/horrorBooks/it.jpg')}
-            />
+            <Image style={styles.imageContent} source={{uri: props.image}} />
           </View>
         </View>
         <View style={styles.statusContainer}>
