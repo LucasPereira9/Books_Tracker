@@ -5,6 +5,7 @@ import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../global/theme';
 import {IBookList} from './BookList.structure';
+import {ProgressBar} from '@react-native-community/progress-bar-android';
 
 export default function BooksList(props: IBookList) {
   const ref = React.useRef<FlatList>(null);
@@ -60,6 +61,14 @@ export default function BooksList(props: IBookList) {
                 <Icon name="plus" size={35} color={theme.colors.black} />
                 <Text>Adicionar livro</Text>
               </TouchableOpacity>
+            ) : props.loading ? (
+              <View style={styles.progressBar}>
+                <ProgressBar
+                  color={theme.colors.black}
+                  styleAttr="Normal"
+                  indeterminate={false}
+                />
+              </View>
             ) : (
               <FlatList
                 scrollEnabled={props.isScrollEnabled}

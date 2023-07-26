@@ -21,7 +21,7 @@ export default function Home() {
   ];
 
   const getBooks = async () => {
-    // setLoading(true);
+    setLoading(true);
     try {
       const result = await booksServices.getData({
         type: 'books',
@@ -29,13 +29,15 @@ export default function Home() {
 
       const arrayOfObjects = Object.values(result);
       setReadingBooks(arrayOfObjects.reverse());
-      console.log('result: ', arrayOfObjects);
     } catch (error) {
       console.log(error);
     }
   };
   React.useEffect(() => {
     getBooks();
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   function PostData() {
@@ -53,67 +55,57 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      {loading ? (
-        <View>
-          <Text>LALALLA</Text>
+      <View style={styles.topContainer}>
+        <Image
+          style={styles.imageContainer}
+          source={require('../../assets/images/frederico.png')}
+        />
+        <TouchableOpacity
+          onPress={() => {
+            PostData();
+          }}
+          style={styles.titleContent}>
+          <Text style={styles.title}>Bem vindo!</Text>
+          <Text style={styles.subtitle}>Que livro você leu hoje?</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.readingBooks}>
+        <BooksList
+          loading={loading}
+          isScrollEnabled={false}
+          title="Meus Livros"
+          data={readingBooks}
+          renderItem={({item, index: findex}) => {
+            return (
+              <View style={styles.listContent} key={findex}>
+                <BookInfo image={item.image} key={item.id} date={item.name} />
+              </View>
+            );
+          }}
+        />
+      </View>
+      <View>
+        <View style={styles.recomendationTitle}>
+          <Text style={styles.title}>Recomendações:</Text>
         </View>
-      ) : (
-        <>
-          <View style={styles.topContainer}>
-            <Image
-              style={styles.imageContainer}
-              source={require('../../assets/images/frederico.png')}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                PostData();
-              }}
-              style={styles.titleContent}>
-              <Text style={styles.title}>Bem vindo!</Text>
-              <Text style={styles.subtitle}>Que livro você leu hoje?</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.readingBooks}>
+        <View>
+          <View style={styles.RecomendationContainer}>
             <BooksList
-              isScrollEnabled={false}
-              title="Meus Livros"
-              data={readingBooks}
+              loading={loading}
+              isScrollEnabled={true}
+              title="Porque voce está lendo: It a coisa"
+              data={test2}
               renderItem={({item, index: findex}) => {
                 return (
-                  <View style={styles.listContent} key={findex}>
-                    <BookInfo
-                      image={item.image}
-                      key={item.id}
-                      date={item.name}
-                    />
+                  <View key={findex} style={styles.recomendationContent}>
+                    <RecommendationList key={item.id} image={item.image} />
                   </View>
                 );
               }}
             />
           </View>
-          <View>
-            <View style={styles.recomendationTitle}>
-              <Text style={styles.title}>Recomendações:</Text>
-            </View>
-            <View>
-              <View style={styles.RecomendationContainer}>
-                <BooksList
-                  isScrollEnabled={true}
-                  title="Porque voce está lendo: It a coisa"
-                  data={test2}
-                  renderItem={({item, index: findex}) => {
-                    return (
-                      <View key={findex} style={styles.recomendationContent}>
-                        <RecommendationList key={item.id} image={item.image} />
-                      </View>
-                    );
-                  }}
-                />
-              </View>
-            </View>
-          </View>
-        </>
-      )}
+        </View>
+      </View>
     </View>
   );
 }
