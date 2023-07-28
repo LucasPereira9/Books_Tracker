@@ -1,14 +1,12 @@
-import database from '@react-native-firebase/database';
+import {getRealm} from './database/realm';
 
 class BooksServices {
-  async getData({type}: {type: string}): Promise<any> {
+  async getData({filter}: {filter: string}): Promise<any> {
+    const realm = await getRealm();
     try {
-      const response = await database()
-        .ref(`/${type}/`)
-        .once('value')
-        .then(snapshot => {
-          return snapshot.toJSON();
-        });
+      const response = realm
+        .objects('MyBooksData')
+        .filtered(`status = '${filter}'`);
       return response;
     } catch (error: any) {
       console.log('booksError: ', error);

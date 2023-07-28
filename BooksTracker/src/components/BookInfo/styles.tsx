@@ -22,7 +22,6 @@ export const styles = StyleSheet.create({
     margin: 10,
     width: 100,
     height: '86%',
-    backgroundColor: '#000',
     right: 20,
   },
   bookContent: {

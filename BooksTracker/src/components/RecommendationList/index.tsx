@@ -6,7 +6,7 @@ import {styles} from './styles';
 export default function RecommendationList(props: IRecomendationProps) {
   return (
     <TouchableOpacity activeOpacity={0.7} style={styles.imageContainer}>
-      <Image style={styles.imageContent} source={props.image} />
+      <Image style={styles.imageContent} source={{uri: props.image}} />
     </TouchableOpacity>
   );
 }

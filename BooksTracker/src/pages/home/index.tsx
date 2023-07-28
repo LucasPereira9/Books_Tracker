@@ -4,9 +4,9 @@ import {styles} from './styles';
 import BooksList from '../../components/BooksList';
 import BookInfo from '../../components/BookInfo';
 import RecommendationList from '../../components/RecommendationList';
-import database from '@react-native-firebase/database';
-import booksServices from '../../services/booksServices';
 import uuid from 'react-native-uuid';
+import {getRealm} from '../../services/database/realm';
+import booksServices from '../../services/booksServices';
 
 export default function Home() {
   const [readingBooks, setReadingBooks] = React.useState([]);
@@ -20,38 +20,63 @@ export default function Home() {
     {image: require('../../assets/images/horrorBooks/carrie.jpg')},
   ];
 
-  const getBooks = async () => {
+  async function Teste() {
+    const realm = await getRealm();
+
+    try {
+      realm.write(() => {
+        const created = realm.create('MyBooksData', {
+          _id: Key,
+          image:
+            'https://as2.ftcdn.net/v2/jpg/01/96/52/31/1000_F_196523185_k6LSUluqRnbrVsOskQcujOsxvnhHE87p.jpg',
+          title: 'TESTE',
+          author: 'TESTE',
+          gender: 'Terror',
+          status: 'null',
+          totalPages: '256',
+          pagesRead: '0',
+          isPagesProgressEnabled: 'false',
+          isReading: 'null',
+        });
+        console.log('created: ', created);
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      realm.close();
+      console.log('deu certin');
+    }
+  }
+
+  const GetData = async () => {
     setLoading(true);
     try {
       const result = await booksServices.getData({
-        type: 'books',
+        filter: 'null',
       });
-
-      const arrayOfObjects = Object.values(result);
-      setReadingBooks(arrayOfObjects.reverse());
+      console.log('NEW DATA: ', result);
+      setReadingBooks(result);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-  React.useEffect(() => {
-    getBooks();
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
 
-  function PostData() {
-    database()
-      .ref(`/books/${Key}`)
-      .set({
-        id: Key,
-        image: 'https://m.media-amazon.com/images/I/41nngxCNKxL.jpg',
-        name: 'aaa',
-        gender: 'horror',
-        author: 'Stephen King',
-      })
-      .then(() => console.log('Data set.'));
+  async function excluir() {
+    const realm = await getRealm();
+    try {
+      realm.write(() => {
+        realm.delete(realm.objects('book'));
+      });
+      realm.close();
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  React.useEffect(() => {
+    GetData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -62,7 +87,7 @@ export default function Home() {
         />
         <TouchableOpacity
           onPress={() => {
-            PostData();
+            Teste();
           }}
           style={styles.titleContent}>
           <Text style={styles.title}>Bem vindo!</Text>
@@ -78,7 +103,7 @@ export default function Home() {
           renderItem={({item, index: findex}) => {
             return (
               <View style={styles.listContent} key={findex}>
-                <BookInfo image={item.image} key={item.id} date={item.name} />
+                <BookInfo image={item.image} key={item.id} date={item.title} />
               </View>
             );
           }}
@@ -94,7 +119,7 @@ export default function Home() {
               loading={loading}
               isScrollEnabled={true}
               title="Porque voce está lendo: It a coisa"
-              data={test2}
+              data={readingBooks}
               renderItem={({item, index: findex}) => {
                 return (
                   <View key={findex} style={styles.recomendationContent}>
