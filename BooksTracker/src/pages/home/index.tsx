@@ -2,14 +2,15 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import BooksList from '../../components/BooksList';
-import BookInfo from '../../components/BookInfo';
-import RecommendationList from '../../components/RecommendationList';
 import uuid from 'react-native-uuid';
 import {getRealm} from '../../services/database/realm';
 import booksServices from '../../services/booksServices';
+import {HandleRecomendation} from '../../utils';
 
 export default function Home() {
   const [readingBooks, setReadingBooks] = React.useState([]);
+
+  const [recommendedBooks, setRecommendedBooks] = React.useState([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const Key = uuid.v4();
 
@@ -20,6 +21,11 @@ export default function Home() {
     {image: require('../../assets/images/horrorBooks/carrie.jpg')},
   ];
 
+  function GetRecommendationBooks() {
+    const response = HandleRecomendation({filter: 'Terror'});
+    setRecommendedBooks(response);
+  }
+
   async function Teste() {
     const realm = await getRealm();
 
@@ -28,13 +34,13 @@ export default function Home() {
         const created = realm.create('MyBooksData', {
           _id: Key,
           image:
-            'https://as2.ftcdn.net/v2/jpg/01/96/52/31/1000_F_196523185_k6LSUluqRnbrVsOskQcujOsxvnhHE87p.jpg',
-          title: 'TESTE',
-          author: 'TESTE',
+            'https://osmelhoreslivros.com.br/wp-content/uploads/2020/11/a-profecia-melhores-livros-de-terror-210x300.jpg.webp',
+          title: 'A Profecia',
+          author: 'David Seltzer',
           gender: 'Terror',
           status: 'null',
-          totalPages: '256',
-          pagesRead: '0',
+          totalPages: '',
+          pagesRead: '320',
           isPagesProgressEnabled: 'false',
           isReading: 'null',
         });
@@ -54,9 +60,8 @@ export default function Home() {
       const result = await booksServices.getData({
         filter: 'null',
       });
-      console.log('NEW DATA: ', result);
-      setReadingBooks(result);
       setLoading(false);
+      GetRecommendationBooks();
     } catch (error) {
       console.log(error);
     }
@@ -100,13 +105,6 @@ export default function Home() {
           isScrollEnabled={false}
           title="Meus Livros"
           data={readingBooks}
-          renderItem={({item, index: findex}) => {
-            return (
-              <View style={styles.listContent} key={findex}>
-                <BookInfo image={item.image} key={item.id} date={item.title} />
-              </View>
-            );
-          }}
         />
       </View>
       <View>
@@ -116,17 +114,11 @@ export default function Home() {
         <View>
           <View style={styles.RecomendationContainer}>
             <BooksList
+              recommendation={true}
               loading={loading}
               isScrollEnabled={true}
               title="Porque voce está lendo: It a coisa"
-              data={readingBooks}
-              renderItem={({item, index: findex}) => {
-                return (
-                  <View key={findex} style={styles.recomendationContent}>
-                    <RecommendationList key={item.id} image={item.image} />
-                  </View>
-                );
-              }}
+              data={recommendedBooks}
             />
           </View>
         </View>

@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../global/theme';
 import {IBookList} from './BookList.structure';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
+import BookInfo from '../BookInfo';
+import RecommendationList from '../RecommendationList';
 
 export default function BooksList(props: IBookList) {
   const ref = React.useRef<FlatList>(null);
@@ -78,7 +80,30 @@ export default function BooksList(props: IBookList) {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={props.data}
-                renderItem={props.renderItem}
+                renderItem={({item}) => {
+                  return (
+                    <>
+                      {props.recommendation ? (
+                        <View
+                          key={item.key}
+                          style={styles.recomendationContent}>
+                          <RecommendationList
+                            key={item.id}
+                            image={item.image}
+                          />
+                        </View>
+                      ) : (
+                        <View style={styles.ReadingBooksContent} key={item.key}>
+                          <BookInfo
+                            image={item.image}
+                            key={item.id}
+                            date={item.title}
+                          />
+                        </View>
+                      )}
+                    </>
+                  );
+                }}
               />
             )}
           </View>
