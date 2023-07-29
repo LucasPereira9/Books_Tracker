@@ -3,136 +3,54 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import BooksList from '../../components/BooksList';
 import uuid from 'react-native-uuid';
-import {getRealm} from '../../services/database/realm';
 import booksServices from '../../services/booksServices';
 import database from '@react-native-firebase/database';
+import {INavigationParams} from '../../../global/types';
 
-export default function Home() {
-  const [readingBooks, setReadingBooks] = React.useState([]);
-
-  const [tt, setTt] = React.useState();
-
+export default function Home({route: {params}}: INavigationParams<any>) {
   const [recommendedBooks, setRecommendedBooks] = React.useState([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const LastBook = params.readingBooks[params.readingBooks?.length - 1];
 
-  const [gender, setGender] = React.useState<string>('');
   const Key = uuid.v4();
 
   const GetRecommendBooks = async () => {
+    setLoading(true);
     try {
-      const result = loading
-        ? null
-        : await booksServices.FirebaseData({
-            type: readingBooks.length === 0 ? 'Terror' : readingBooks[0].gender,
-          });
+      const result = await booksServices.FirebaseData({
+        type: params.readingBooks.length === 0 ? 'Aleatorio' : LastBook.gender,
+      });
 
       const arrayOfObjects = Object.values(result);
-      console.log('gender: ', readingBooks[0].gender);
       setRecommendedBooks(arrayOfObjects.reverse());
+      setLoading(false);
     } catch (error) {
       console.log('ERRORrec', error);
     }
   };
 
-  const getReadingBooks = async () => {
-    setLoading(true);
-    try {
-      const result = await booksServices.FirebaseData({
-        type: 'books',
-      });
-
-      const arrayOfObjects = Object.values(result);
-
-      setReadingBooks(arrayOfObjects.reverse());
-      setTt(readingBooks[0]);
-    } catch (error) {
-      console.log('ERROR', error);
-    } finally {
-      console.log(tt);
-    }
-  };
-  React.useLayoutEffect(() => {
-    setTimeout(() => {
-      GetRecommendBooks();
-      console.log('tt', tt);
-      setLoading(false);
-    }, 3000);
-  }, [readingBooks]);
+  React.useEffect(() => {
+    GetRecommendBooks();
+  }, []);
 
   function PostFirebase() {
     database()
-      .ref(`/Terror/${Key}`)
+      .ref(`/userBooks/${Key}`)
       .set({
         key: Key,
         image:
-          'https://osmelhoreslivros.com.br/wp-content/uploads/2020/11/hell-house-198x300.jpg.webp',
-        title: 'A Casa Infernal',
-        author: 'Richard Matheson',
+          'https://m.media-amazon.com/images/I/51iW-h52p4L._SX359_BO1,204,203,200_.jpg',
+        title: 'O escaravelho do diwdswadadabo',
+        author: 'Lúcia Machado de Almeida',
         gender: 'Terror',
         status: 'recomendation',
-        totalPages: '256',
+        totalPages: '192',
         pagesRead: '0',
         isPagesProgressEnabled: 'false',
         isReading: 'null',
       })
       .then(() => console.log('Data set.'));
   }
-
-  async function PostDB() {
-    const realm = await getRealm();
-
-    try {
-      realm.write(() => {
-        const created = realm.create('MyBooksData', {
-          _id: Key,
-          image:
-            'https://osmelhoreslivros.com.br/wp-content/uploads/2020/11/a-profecia-melhores-livros-de-terror-210x300.jpg.webp',
-          title: 'A Profecia',
-          author: 'David Seltzer',
-          gender: 'Terror',
-          status: 'null',
-          totalPages: '',
-          pagesRead: '320',
-          isPagesProgressEnabled: 'false',
-          isReading: 'null',
-        });
-        console.log('created: ', created);
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      realm.close();
-    }
-  }
-
-  const GetData = async () => {
-    setLoading(true);
-    try {
-      const result = await booksServices.GetReadingBooks({
-        filter: 'null',
-      });
-      setLoading(false);
-      console.log('result: ', result);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  async function excluir() {
-    const realm = await getRealm();
-    try {
-      realm.write(() => {
-        realm.delete(realm.objects('book'));
-      });
-      realm.close();
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  React.useEffect(() => {
-    getReadingBooks();
-  }, []);
 
   return (
     <View style={styles.container}>
@@ -155,7 +73,7 @@ export default function Home() {
           loading={loading}
           isScrollEnabled={false}
           title="Meus Livros"
-          data={readingBooks}
+          data={params.readingBooks}
         />
       </View>
       <View>
@@ -168,7 +86,11 @@ export default function Home() {
               recommendation={true}
               loading={loading}
               isScrollEnabled={true}
-              title="Porque voce está lendo: It a coisa"
+              title={
+                params.readingBooks.length === 0
+                  ? 'Nossas recomendações'
+                  : `Porque você está lendo: ${LastBook?.title}`
+              }
               data={recommendedBooks}
             />
           </View>

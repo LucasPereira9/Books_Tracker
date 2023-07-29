@@ -58,7 +58,7 @@ export default function BooksList(props: IBookList) {
         isIconRightVisible={isRightIconVisible}
         content={
           <View>
-            {props.data?.length === 0 ? (
+            {props.data?.length === 0 && !props.recommendation ? (
               <TouchableOpacity activeOpacity={0.7} style={styles.dashedButton}>
                 <Icon name="plus" size={35} color={theme.colors.black} />
                 <Text>Adicionar livro</Text>

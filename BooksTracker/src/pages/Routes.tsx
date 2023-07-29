@@ -2,9 +2,9 @@ import * as React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../global/theme';
-import Home from './home';
 import MyBooksPage from './myBooks';
 import NewBook from './addBook';
+import HomeStack from './home/Routes';
 
 const Tab = createBottomTabNavigator();
 
@@ -13,7 +13,7 @@ export default function Routes() {
     <Tab.Navigator
       screenOptions={() => ({
         tabBarScrollEnabled: true,
-        tabBarActiveTintColor: theme.colors.primary,
+        tabBarActiveTintColor: theme.colors.secondary,
         tabBarInactiveTintColor: theme.colors.black,
         tabBarStyle: {
           height: 60,
@@ -31,7 +31,7 @@ export default function Routes() {
           tabBarIcon: ({color}) => <Icon name="home" size={30} color={color} />,
         }}
         name="Início"
-        component={Home}
+        component={HomeStack}
       />
       <Tab.Screen
         options={{
