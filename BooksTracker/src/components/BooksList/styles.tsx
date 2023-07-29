@@ -21,4 +21,15 @@ export const styles = StyleSheet.create({
   progressBar: {
     marginTop: '25%',
   },
+
+  ReadingBooksContent: {
+    minWidth: 260,
+    height: '100%',
+    marginRight: 18,
+  },
+
+  recomendationContent: {
+    height: '100%',
+    top: 2,
+  },
 });

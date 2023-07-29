@@ -2,53 +2,52 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {styles} from './styles';
 import BooksList from '../../components/BooksList';
-import BookInfo from '../../components/BookInfo';
-import RecommendationList from '../../components/RecommendationList';
-import database from '@react-native-firebase/database';
-import booksServices from '../../services/booksServices';
 import uuid from 'react-native-uuid';
+import booksServices from '../../services/booksServices';
+import database from '@react-native-firebase/database';
+import {INavigationParams} from '../../../global/types';
 
-export default function Home() {
-  const [readingBooks, setReadingBooks] = React.useState([]);
+export default function Home({route: {params}}: INavigationParams<any>) {
+  const [recommendedBooks, setRecommendedBooks] = React.useState([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const LastBook = params.readingBooks[params.readingBooks?.length - 1];
+
   const Key = uuid.v4();
 
-  const test2 = [
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-  ];
-
-  const getBooks = async () => {
+  const GetRecommendBooks = async () => {
     setLoading(true);
     try {
-      const result = await booksServices.getData({
-        type: 'books',
+      const result = await booksServices.FirebaseData({
+        type: params.readingBooks.length === 0 ? 'Aleatorio' : LastBook.gender,
       });
 
       const arrayOfObjects = Object.values(result);
-      setReadingBooks(arrayOfObjects.reverse());
+      setRecommendedBooks(arrayOfObjects.reverse());
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log('ERRORrec', error);
     }
   };
+
   React.useEffect(() => {
-    getBooks();
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    GetRecommendBooks();
   }, []);
 
-  function PostData() {
+  function PostFirebase() {
     database()
-      .ref(`/books/${Key}`)
+      .ref(`/userBooks/${Key}`)
       .set({
-        id: Key,
-        image: 'https://m.media-amazon.com/images/I/41nngxCNKxL.jpg',
-        name: 'aaa',
-        gender: 'horror',
-        author: 'Stephen King',
+        key: Key,
+        image:
+          'https://m.media-amazon.com/images/I/51iW-h52p4L._SX359_BO1,204,203,200_.jpg',
+        title: 'O escaravelho do diwdswadadabo',
+        author: 'Lúcia Machado de Almeida',
+        gender: 'Terror',
+        status: 'recomendation',
+        totalPages: '192',
+        pagesRead: '0',
+        isPagesProgressEnabled: 'false',
+        isReading: 'null',
       })
       .then(() => console.log('Data set.'));
   }
@@ -62,7 +61,7 @@ export default function Home() {
         />
         <TouchableOpacity
           onPress={() => {
-            PostData();
+            PostFirebase();
           }}
           style={styles.titleContent}>
           <Text style={styles.title}>Bem vindo!</Text>
@@ -74,14 +73,7 @@ export default function Home() {
           loading={loading}
           isScrollEnabled={false}
           title="Meus Livros"
-          data={readingBooks}
-          renderItem={({item, index: findex}) => {
-            return (
-              <View style={styles.listContent} key={findex}>
-                <BookInfo image={item.image} key={item.id} date={item.name} />
-              </View>
-            );
-          }}
+          data={params.readingBooks}
         />
       </View>
       <View>
@@ -91,17 +83,15 @@ export default function Home() {
         <View>
           <View style={styles.RecomendationContainer}>
             <BooksList
+              recommendation={true}
               loading={loading}
               isScrollEnabled={true}
-              title="Porque voce está lendo: It a coisa"
-              data={test2}
-              renderItem={({item, index: findex}) => {
-                return (
-                  <View key={findex} style={styles.recomendationContent}>
-                    <RecommendationList key={item.id} image={item.image} />
-                  </View>
-                );
-              }}
+              title={
+                params.readingBooks.length === 0
+                  ? 'Nossas recomendações'
+                  : `Porque você está lendo: ${LastBook?.title}`
+              }
+              data={recommendedBooks}
             />
           </View>
         </View>
