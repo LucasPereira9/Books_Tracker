@@ -5,28 +5,80 @@ import BooksList from '../../components/BooksList';
 import uuid from 'react-native-uuid';
 import {getRealm} from '../../services/database/realm';
 import booksServices from '../../services/booksServices';
-import {HandleRecomendation} from '../../utils';
+import database from '@react-native-firebase/database';
 
 export default function Home() {
   const [readingBooks, setReadingBooks] = React.useState([]);
 
+  const [tt, setTt] = React.useState();
+
   const [recommendedBooks, setRecommendedBooks] = React.useState([]);
   const [loading, setLoading] = React.useState<boolean>(false);
+
+  const [gender, setGender] = React.useState<string>('');
   const Key = uuid.v4();
 
-  const test2 = [
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-    {image: require('../../assets/images/horrorBooks/carrie.jpg')},
-  ];
+  const GetRecommendBooks = async () => {
+    try {
+      const result = loading
+        ? null
+        : await booksServices.FirebaseData({
+            type: readingBooks.length === 0 ? 'Terror' : readingBooks[0].gender,
+          });
 
-  function GetRecommendationBooks() {
-    const response = HandleRecomendation({filter: 'Terror'});
-    setRecommendedBooks(response);
+      const arrayOfObjects = Object.values(result);
+      console.log('gender: ', readingBooks[0].gender);
+      setRecommendedBooks(arrayOfObjects.reverse());
+    } catch (error) {
+      console.log('ERRORrec', error);
+    }
+  };
+
+  const getReadingBooks = async () => {
+    setLoading(true);
+    try {
+      const result = await booksServices.FirebaseData({
+        type: 'books',
+      });
+
+      const arrayOfObjects = Object.values(result);
+
+      setReadingBooks(arrayOfObjects.reverse());
+      setTt(readingBooks[0]);
+    } catch (error) {
+      console.log('ERROR', error);
+    } finally {
+      console.log(tt);
+    }
+  };
+  React.useLayoutEffect(() => {
+    setTimeout(() => {
+      GetRecommendBooks();
+      console.log('tt', tt);
+      setLoading(false);
+    }, 3000);
+  }, [readingBooks]);
+
+  function PostFirebase() {
+    database()
+      .ref(`/Terror/${Key}`)
+      .set({
+        key: Key,
+        image:
+          'https://osmelhoreslivros.com.br/wp-content/uploads/2020/11/hell-house-198x300.jpg.webp',
+        title: 'A Casa Infernal',
+        author: 'Richard Matheson',
+        gender: 'Terror',
+        status: 'recomendation',
+        totalPages: '256',
+        pagesRead: '0',
+        isPagesProgressEnabled: 'false',
+        isReading: 'null',
+      })
+      .then(() => console.log('Data set.'));
   }
 
-  async function Teste() {
+  async function PostDB() {
     const realm = await getRealm();
 
     try {
@@ -50,18 +102,17 @@ export default function Home() {
       console.log(error);
     } finally {
       realm.close();
-      console.log('deu certin');
     }
   }
 
   const GetData = async () => {
     setLoading(true);
     try {
-      const result = await booksServices.getData({
+      const result = await booksServices.GetReadingBooks({
         filter: 'null',
       });
       setLoading(false);
-      GetRecommendationBooks();
+      console.log('result: ', result);
     } catch (error) {
       console.log(error);
     }
@@ -80,7 +131,7 @@ export default function Home() {
   }
 
   React.useEffect(() => {
-    GetData();
+    getReadingBooks();
   }, []);
 
   return (
@@ -92,7 +143,7 @@ export default function Home() {
         />
         <TouchableOpacity
           onPress={() => {
-            Teste();
+            PostFirebase();
           }}
           style={styles.titleContent}>
           <Text style={styles.title}>Bem vindo!</Text>
