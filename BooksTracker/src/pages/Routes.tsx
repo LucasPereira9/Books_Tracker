@@ -1,18 +1,10 @@
 import * as React from 'react';
-import {Text, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../global/theme';
 import Home from './home';
 import MyBooksPage from './myBooks';
-
-function SettingsScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import NewBook from './addBook';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,7 +40,7 @@ export default function Routes() {
           ),
         }}
         name="Adicionar livro"
-        component={SettingsScreen}
+        component={NewBook}
       />
       <Tab.Screen
         options={{
