@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     marginVertical: 12,
-    height: 42,
+    height: 39,
     width: '90%',
   },
   inputContainer: {
@@ -19,5 +19,9 @@ export const styles = StyleSheet.create({
   },
   titleContainer: {
     marginLeft: '6%',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

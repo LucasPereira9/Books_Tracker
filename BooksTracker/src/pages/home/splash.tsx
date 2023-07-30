@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text} from 'react-native';
 import booksServices from '../../services/booksServices';
@@ -26,7 +26,7 @@ export default function Splash() {
     }
   };
 
-  React.useEffect(() => {
+  useFocusEffect(() => {
     getReadingBooks();
   }, []);
   return (

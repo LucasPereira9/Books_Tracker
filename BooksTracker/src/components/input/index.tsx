@@ -9,7 +9,7 @@ export default function Input(props: IInput) {
   return (
     <View>
       <View style={styles.titleContainer}>
-        <Text>{props.title}</Text>
+        <Text style={styles.title}>{props.title}</Text>
       </View>
       <View style={styles.Container}>
         <View style={styles.inputContainer}>

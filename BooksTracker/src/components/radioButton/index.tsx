@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import RadioGroup from 'react-native-radio-buttons-group';
 
 export default function RadioButton() {
-  const [selectedId, setSelectedId] = React.useState<string | undefined>();
+  const [selectedId, setSelectedId] = React.useState<string | undefined>('1');
   const radioButtons = React.useMemo(
     () => [
       {

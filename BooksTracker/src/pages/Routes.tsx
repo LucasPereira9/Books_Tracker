@@ -3,7 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../global/theme';
 import MyBooksPage from './myBooks';
-import NewBook from './addBook';
+import NewBook from './newBook';
 import HomeStack from './home/Routes';
 
 const Tab = createBottomTabNavigator();
