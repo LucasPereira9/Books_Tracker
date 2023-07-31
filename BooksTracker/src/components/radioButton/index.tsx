@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {View} from 'react-native';
 
 import RadioGroup from 'react-native-radio-buttons-group';
+import {styles} from './styles';
+import {IRadioProps} from './radioButton.structure';
 
-export default function RadioButton() {
-  const [selectedId, setSelectedId] = React.useState<string | undefined>();
+export default function RadioButton(props: IRadioProps) {
   const radioButtons = React.useMemo(
     () => [
       {
@@ -21,16 +22,13 @@ export default function RadioButton() {
     [],
   );
   return (
-    <View>
+    <View style={styles.Container}>
       <RadioGroup
         layout="row"
         radioButtons={radioButtons}
-        onPress={setSelectedId}
-        selectedId={selectedId}
+        onPress={props.setValue}
+        selectedId={props.value}
       />
-      <TouchableOpacity onPress={() => console.log(selectedId)}>
-        <Text>LALAL</Text>
-      </TouchableOpacity>
     </View>
   );
 }

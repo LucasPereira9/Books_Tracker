@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Text, View} from 'react-native';
-import BookInfo from '../../../components/BookInfo';
+import BookInfo from '../../../components/bookInfo';
 
 export default function InProgressBoks() {
   const dataTest = [

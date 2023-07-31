@@ -1,17 +1,19 @@
 import React from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
-import Box from '../Box';
+import Box from '../box';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../global/theme';
 import {IBookList} from './BookList.structure';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import BookInfo from '../BookInfo';
-import RecommendationList from '../RecommendationList';
+import BookInfo from '../bookInfo';
+import RecommendationList from '../recommendationList';
+import {useNavigation} from '@react-navigation/native';
 
 export default function BooksList(props: IBookList) {
   const ref = React.useRef<FlatList>(null);
   const [index, setIndex] = React.useState(0);
+  const navigation = useNavigation();
 
   const [isLeftIconVisible, setIsLeftIconVisible] =
     React.useState<boolean>(true);
@@ -59,7 +61,10 @@ export default function BooksList(props: IBookList) {
         content={
           <View>
             {props.data?.length === 0 && !props.recommendation ? (
-              <TouchableOpacity activeOpacity={0.7} style={styles.dashedButton}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Adicionar livro')}
+                activeOpacity={0.7}
+                style={styles.dashedButton}>
                 <Icon name="plus" size={35} color={theme.colors.black} />
                 <Text>Adicionar livro</Text>
               </TouchableOpacity>

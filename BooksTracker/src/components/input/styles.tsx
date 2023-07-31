@@ -1,13 +1,27 @@
 import {StyleSheet} from 'react-native';
+import theme from '../../../global/theme';
 
 export const styles = StyleSheet.create({
-  container: {
-    width: '90%',
+  Container: {
     alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.gray,
+    borderRadius: 10,
+    flexDirection: 'row',
+    marginVertical: 12,
+    height: 39,
+    width: '90%',
   },
   inputContainer: {
-    marginVertical: 12,
-    backgroundColor: 'gray',
-    borderRadius: 20,
+    color: theme.colors.black,
+    paddingLeft: 10,
+    flex: 1,
+  },
+  titleContainer: {
+    marginLeft: '6%',
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

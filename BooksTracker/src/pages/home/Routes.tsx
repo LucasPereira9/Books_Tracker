@@ -10,8 +10,7 @@ export default function HomeStack() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-      }}
-      initialRouteName="Splash">
+      }}>
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Home" component={Home} />
     </Stack.Navigator>
