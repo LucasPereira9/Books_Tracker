@@ -3,5 +3,5 @@ export interface IBookList {
   title?: string;
   isScrollEnabled: boolean;
   loading: boolean;
-  recommendation: boolean;
+  recommendation?: boolean;
 }

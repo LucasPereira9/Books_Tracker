@@ -1,13 +1,13 @@
 import React from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
-import Box from '../Box';
+import Box from '../box';
 import {styles} from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import theme from '../../../global/theme';
 import {IBookList} from './BookList.structure';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
-import BookInfo from '../BookInfo';
-import RecommendationList from '../RecommendationList';
+import BookInfo from '../bookInfo';
+import RecommendationList from '../recommendationList';
 import {useNavigation} from '@react-navigation/native';
 
 export default function BooksList(props: IBookList) {

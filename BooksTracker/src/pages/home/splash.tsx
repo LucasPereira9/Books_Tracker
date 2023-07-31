@@ -13,6 +13,7 @@ export default function Splash() {
       });
 
       const arrayOfObjects = Object.values(result);
+
       setTimeout(() => {
         navigation.navigate('Home', {
           readingBooks: arrayOfObjects,
@@ -28,7 +29,7 @@ export default function Splash() {
 
   useFocusEffect(() => {
     getReadingBooks();
-  }, []);
+  });
   return (
     <View>
       <Text>lallalal</Text>

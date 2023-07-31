@@ -48,4 +48,39 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
   },
+  dropdown: {
+    backgroundColor: theme.colors.gray,
+    borderRadius: 10,
+    margin: 16,
+    height: 43,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  genderTitle: {
+    left: '6%',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  iconStyle: {
+    marginRight: '6%',
+    width: '6%',
+    height: '90%',
+  },
+  buttonContainer: {
+    margin: 18,
+    bottom: 5,
+  },
 });
