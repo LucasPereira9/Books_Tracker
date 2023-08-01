@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
   imageContent: {
     width: '100%',
     height: '100%',
+    borderRadius: 6,
   },
   imageContainer: {
     margin: 10,
@@ -33,7 +34,23 @@ export const styles = StyleSheet.create({
     fontWeight: '900',
   },
   statusContainer: {
-    height: '60%',
+    maxWidth: '40%',
+    height: '80%',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  progress: {
+    alignSelf: 'center',
+  },
+  statusContent: {
+    marginTop: 3,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    right: 3,
+  },
+  status: {
+    alignItems: 'center',
   },
 });

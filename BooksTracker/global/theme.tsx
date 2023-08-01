@@ -5,5 +5,6 @@ export default {
     black: '#000',
     white: '#fff',
     gray: '#CECCCC',
+    success: '#4BB543',
   },
 };

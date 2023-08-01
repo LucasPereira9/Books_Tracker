@@ -80,11 +80,12 @@ export default function NewBook() {
         title: data.title,
         author: data.author,
         gender: data.gender.value,
-        status: 'null',
+        status: 'lendo',
         totalPages: data.pages,
-        pagesRead: '0',
+        pagesRead: '160',
         isPagesProgressEnabled: data.progressOption === '1' ? true : false,
         isReading: 'null',
+        percentage: 88,
       })
       .then(() => {
         navigation.dispatch(

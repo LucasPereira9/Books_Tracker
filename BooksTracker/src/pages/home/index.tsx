@@ -38,19 +38,14 @@ export default function Home({route: {params}}: INavigationParams<any>) {
           style={styles.imageContainer}
           source={require('../../assets/images/frederico.png')}
         />
-        <TouchableOpacity
-          onPress={() => {
-            // PostFirebase();
-          }}
-          style={styles.titleContent}>
+        <View style={styles.titleContent}>
           <Text style={styles.title}>Bem vindo!</Text>
           <Text style={styles.subtitle}>Que livro você leu hoje?</Text>
-        </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.readingBooks}>
         <BooksList
           loading={loading}
-          isScrollEnabled={false}
           title="Meus Livros"
           data={params.readingBooks}
         />

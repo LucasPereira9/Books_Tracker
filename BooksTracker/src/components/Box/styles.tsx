@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
   },
   titleContent: {
     position: 'absolute',
-    bottom: '88%',
+    bottom: '89%',
     marginHorizontal: 10,
   },
   title: {
