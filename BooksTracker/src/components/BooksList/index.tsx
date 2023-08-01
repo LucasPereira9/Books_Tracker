@@ -9,6 +9,7 @@ import {ProgressBar} from '@react-native-community/progress-bar-android';
 import BookInfo from '../bookInfo';
 import RecommendationList from '../recommendationList';
 import {useNavigation} from '@react-navigation/native';
+import booksServices from '../../services/booksServices';
 
 export default function BooksList(props: IBookList) {
   const ref = React.useRef<FlatList>(null);
@@ -51,12 +52,6 @@ export default function BooksList(props: IBookList) {
       });
     }
   });
-  function HandleProgress(number: number) {
-    const firstDigit = String(number).charAt(0);
-    const Transform = '0.' + firstDigit;
-
-    return Number(Transform);
-  }
 
   return (
     <View>
@@ -121,7 +116,9 @@ export default function BooksList(props: IBookList) {
                                 : theme.colors.black
                             }
                             status={item.status}
-                            progress={HandleProgress(item.percentage)}
+                            progress={booksServices.HandleProgress(
+                              item.percentage,
+                            )}
                             percentage={item.percentage}
                             pagesRead={item.pagesRead}
                             totalPages={item.totalPages}

@@ -5,6 +5,8 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import theme from '../../../global/theme';
 import {styles} from './styles';
 import InProgressBoks from './inProgress';
+import BookCase from './bookCase';
+import FinishedBooks from './finished';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,9 +25,9 @@ export default function MyBooksPage() {
           },
         })}
         style={styles.tabNavigatorStyle}>
-        <Tab.Screen name={'Atuais'} component={InProgressBoks} />
-        <Tab.Screen name={'Futuras'} component={InProgressBoks} />
-        <Tab.Screen name={'Finalizados'} component={InProgressBoks} />
+        <Tab.Screen name={'Lendo'} component={InProgressBoks} />
+        <Tab.Screen name={'Estante'} component={BookCase} />
+        <Tab.Screen name={'Finalizados'} component={FinishedBooks} />
       </Tab.Navigator>
     </View>
   );

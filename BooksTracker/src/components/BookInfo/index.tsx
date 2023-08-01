@@ -26,7 +26,7 @@ export default function BookInfo(props: IBookInfoProps) {
           <View style={styles.status}>
             <Text style={styles.title}>Progresso</Text>
             {props.pagesProgress ? (
-              <View>
+              <View style={{maxWidth: '75%'}}>
                 <Text>
                   {props.pagesRead}/{props.totalPages} páginas
                 </Text>

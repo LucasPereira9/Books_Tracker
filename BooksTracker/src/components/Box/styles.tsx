@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: theme.colors.primary,
-    height: '100%',
+    height: 210,
     width: '95%',
   },
   iconContainer: {
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: 'center',
-    height: '85%',
+    height: '90%',
   },
   titleContent: {
     position: 'absolute',

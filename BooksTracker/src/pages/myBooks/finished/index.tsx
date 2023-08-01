@@ -7,13 +7,13 @@ import {IBookProps} from '../book.structure';
 import {styles} from './styles';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
 
-export default function InProgressBoks() {
+export default function FinishedBooks() {
   const [test, setTest] = React.useState();
   const [loading, setLoading] = React.useState<boolean>(false);
   const getReadingBooks = async () => {
     setLoading(true);
     try {
-      const result = await booksServices.filterData('lendo');
+      const result = await booksServices.filterData('finalizado');
       setTest(result);
       setLoading(false);
     } catch (error) {

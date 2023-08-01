@@ -17,6 +17,24 @@ class BooksServices {
   HandlePercentage = (x: number, y: number) => {
     return (x / y) * 100;
   };
+  HandleProgress(number: number) {
+    const firstDigit = String(number).charAt(0);
+    const Transform = '0.' + firstDigit;
+
+    return Number(Transform);
+  }
+  async filterData(filter: string) {
+    const response = await database()
+      .ref('/userBooks/')
+      .once('value')
+      .then(snapshot => {
+        const arrayOfObjects = Object.values(snapshot.toJSON());
+        var filtered = arrayOfObjects.filter(item => item.status === filter);
+
+        return filtered;
+      });
+    return response;
+  }
 }
 
 export default new BooksServices();

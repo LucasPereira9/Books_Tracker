@@ -16,6 +16,7 @@ import booksServices from '../../services/booksServices';
 
 export default function NewBook() {
   const navigation = useNavigation();
+  const [loading, setLoading] = React.useState<boolean>(false);
   const [key, setKey] = React.useState(123);
 
   const getReadingBooks = async () => {
@@ -72,6 +73,7 @@ export default function NewBook() {
   } = useForm({mode: 'onChange'});
 
   const onSubmit: SubmitHandler<any> = data => {
+    setLoading(true);
     database()
       .ref(`/userBooks/${key}`)
       .set({
@@ -88,6 +90,7 @@ export default function NewBook() {
         percentage: 88,
       })
       .then(() => {
+        setLoading(false);
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
@@ -133,7 +136,7 @@ export default function NewBook() {
     );
   };
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.topContent}>
         <Text style={styles.title}>Adicionar um livro:</Text>
 
@@ -198,6 +201,7 @@ export default function NewBook() {
       </View>
       <View style={styles.buttonContainer}>
         <PrimaryButton
+          loading={loading}
           isDisabled={!isValid}
           title="Adicionar"
           function={handleSubmit(onSubmit)}
