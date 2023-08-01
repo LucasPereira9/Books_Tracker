@@ -11,12 +11,27 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {Dropdown} from 'react-native-element-dropdown';
 import PrimaryButton from '../../components/primaryButton';
 import database from '@react-native-firebase/database';
-import uuid from 'react-native-uuid';
 import {CommonActions, useNavigation} from '@react-navigation/native';
+import booksServices from '../../services/booksServices';
 
 export default function NewBook() {
   const navigation = useNavigation();
-  const Key = uuid.v4();
+  const [key, setKey] = React.useState(123);
+
+  const getReadingBooks = async () => {
+    try {
+      const result = await booksServices.FirebaseData({
+        type: 'userBooks',
+      });
+
+      const arrayOfObjects = Object.values(result);
+
+      const LastBook = arrayOfObjects[arrayOfObjects?.length - 1];
+      setKey(LastBook === undefined ? 123 : LastBook?.key + 1);
+    } catch (error) {
+      console.log('readingBooksErr:', error);
+    }
+  };
 
   const GenderList = [
     {label: 'Aventura', value: 'Aventura'},
@@ -29,6 +44,9 @@ export default function NewBook() {
   const [image, setImage] = React.useState<string>(
     'https://netrinoimages.s3.eu-west-2.amazonaws.com/2022/12/11/1375341/427065/gallery_icon_3d_3d_model_c4d_max_obj_fbx_ma_lwo_3ds_3dm_stl_4405244_o.png',
   );
+  React.useEffect(() => {
+    getReadingBooks();
+  }, []);
 
   const Inputs = [
     {
@@ -55,9 +73,9 @@ export default function NewBook() {
 
   const onSubmit: SubmitHandler<any> = data => {
     database()
-      .ref(`/userBooks/${Key}`)
+      .ref(`/userBooks/${key}`)
       .set({
-        key: Key,
+        key: key,
         image: image,
         title: data.title,
         author: data.author,
@@ -76,8 +94,6 @@ export default function NewBook() {
           }),
         );
       });
-
-    console.log(data);
   };
 
   const imagePicker = () => {

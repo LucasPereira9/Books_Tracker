@@ -1,6 +1,8 @@
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+
+import LottieView from 'lottie-react-native';
 import booksServices from '../../services/booksServices';
 
 export default function Splash() {
@@ -13,12 +15,13 @@ export default function Splash() {
       });
 
       const arrayOfObjects = Object.values(result);
+      const newArray = arrayOfObjects.reverse();
 
       setTimeout(() => {
         navigation.navigate('Home', {
-          readingBooks: arrayOfObjects,
+          readingBooks: newArray,
         });
-      }, 1000);
+      }, 5000);
     } catch (error) {
       console.log('readingBooksErr:', error);
       navigation.navigate('Home', {
@@ -31,8 +34,13 @@ export default function Splash() {
     getReadingBooks();
   });
   return (
-    <View>
-      <Text>lallalal</Text>
+    <View style={{flex: 1}}>
+      <LottieView
+        source={require('../../assets/fredericoSplash.json')}
+        autoPlay
+        loop
+        style={{flex: 1}}
+      />
     </View>
   );
 }

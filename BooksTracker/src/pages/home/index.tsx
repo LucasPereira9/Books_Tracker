@@ -8,13 +8,15 @@ import {INavigationParams} from '../../../global/types';
 export default function Home({route: {params}}: INavigationParams<any>) {
   const [recommendedBooks, setRecommendedBooks] = React.useState([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const LastBook = params.readingBooks[params.readingBooks?.length - 1];
 
   const GetRecommendBooks = async () => {
     setLoading(true);
     try {
       const result = await booksServices.FirebaseData({
-        type: params.readingBooks.length === 0 ? 'Aleatorio' : LastBook.gender,
+        type:
+          params.readingBooks.length === 0
+            ? 'Aleatorio'
+            : params.readingBooks[0]?.gender,
       });
 
       const arrayOfObjects = Object.values(result);
@@ -66,7 +68,7 @@ export default function Home({route: {params}}: INavigationParams<any>) {
               title={
                 params.readingBooks.length === 0
                   ? 'Nossas recomendações'
-                  : `Porque você está lendo: ${LastBook?.title}`
+                  : `Porque você está lendo: ${params.readingBooks[0].title}`
               }
               data={recommendedBooks}
             />
