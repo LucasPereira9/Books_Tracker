@@ -4,6 +4,7 @@ import {View} from 'react-native';
 
 import LottieView from 'lottie-react-native';
 import booksServices from '../../services/booksServices';
+import {styles} from './styles';
 
 export default function Splash() {
   const navigation = useNavigation();
@@ -21,7 +22,7 @@ export default function Splash() {
         navigation.navigate('Home', {
           readingBooks: newArray,
         });
-      }, 5000);
+      }, 3000);
     } catch (error) {
       console.log('readingBooksErr:', error);
       navigation.navigate('Home', {
@@ -34,12 +35,12 @@ export default function Splash() {
     getReadingBooks();
   });
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.splash}>
       <LottieView
         source={require('../../assets/fredericoSplash.json')}
         autoPlay
         loop
-        style={{flex: 1}}
+        style={styles.splash}
       />
     </View>
   );

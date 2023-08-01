@@ -50,4 +50,8 @@ export const styles = StyleSheet.create({
     height: '100%',
     top: 2,
   },
+  splash: {
+    flex: 1,
+    backgroundColor: theme.colors.white,
+  },
 });
