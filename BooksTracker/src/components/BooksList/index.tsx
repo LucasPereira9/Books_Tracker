@@ -51,6 +51,12 @@ export default function BooksList(props: IBookList) {
       });
     }
   });
+  function HandleProgress(number: number) {
+    const firstDigit = String(number).charAt(0);
+    const Transform = '0.' + firstDigit;
+
+    return Number(Transform);
+  }
 
   return (
     <View>
@@ -100,9 +106,29 @@ export default function BooksList(props: IBookList) {
                       ) : (
                         <View style={styles.ReadingBooksContent} key={item.key}>
                           <BookInfo
+                            icon={
+                              item.status === 'finalizado'
+                                ? 'check-square'
+                                : item.status === 'lendo'
+                                ? 'play-circle'
+                                : 'book'
+                            }
+                            iconColor={
+                              item.status === 'finalizado'
+                                ? theme.colors.success
+                                : item.status === 'lendo'
+                                ? theme.colors.secondary
+                                : theme.colors.black
+                            }
+                            status={item.status}
+                            progress={HandleProgress(item.percentage)}
+                            percentage={item.percentage}
+                            pagesRead={item.pagesRead}
+                            totalPages={item.totalPages}
+                            pagesProgress={item.isPagesProgressEnabled}
                             image={item.image}
                             key={item.id}
-                            date={item.title}
+                            title={item.title}
                           />
                         </View>
                       )}
