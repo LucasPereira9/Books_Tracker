@@ -17,6 +17,7 @@ export default function InProgressBoks() {
       setTest(result);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log('ERRORrec', error);
     }
   };

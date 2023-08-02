@@ -15,10 +15,10 @@ export default function MyBooksPage() {
     <View style={styles.container}>
       <Tab.Navigator
         screenOptions={() => ({
-          tabBarActiveTintColor: theme.colors.primary,
+          tabBarActiveTintColor: theme.colors.secondary,
           tabBarInactiveTintColor: theme.colors.black,
           tabBarIndicatorStyle: {
-            backgroundColor: theme.colors.primary,
+            backgroundColor: theme.colors.secondary,
           },
           tabBarLabelStyle: {
             fontSize: 14,

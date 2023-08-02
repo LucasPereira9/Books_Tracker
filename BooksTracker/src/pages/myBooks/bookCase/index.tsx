@@ -17,6 +17,7 @@ export default function BookCase() {
       setTest(result);
       setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log('ERRORrec', error);
     }
   };

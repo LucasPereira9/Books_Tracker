@@ -40,7 +40,7 @@ export default function Home({route: {params}}: INavigationParams<any>) {
         />
         <View style={styles.titleContent}>
           <Text style={styles.title}>Bem vindo!</Text>
-          <Text style={styles.subtitle}>Que livro você leu hoje?</Text>
+          <Text style={styles.subtitle}>Qual livro você leu hoje?</Text>
         </View>
       </View>
       <View style={styles.readingBooks}>

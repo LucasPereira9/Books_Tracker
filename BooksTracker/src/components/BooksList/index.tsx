@@ -94,6 +94,9 @@ export default function BooksList(props: IBookList) {
                           key={item.key}
                           style={styles.recomendationContent}>
                           <RecommendationList
+                            function={() =>
+                              navigation.navigate('Adicionar livro', {item})
+                            }
                             key={item.id}
                             image={item.image}
                           />
@@ -101,6 +104,9 @@ export default function BooksList(props: IBookList) {
                       ) : (
                         <View style={styles.ReadingBooksContent} key={item.key}>
                           <BookInfo
+                            function={() =>
+                              navigation.navigate('EditBook', {item})
+                            }
                             icon={
                               item.status === 'finalizado'
                                 ? 'check-square'
@@ -116,9 +122,11 @@ export default function BooksList(props: IBookList) {
                                 : theme.colors.black
                             }
                             status={item.status}
-                            progress={booksServices.HandleProgress(
-                              item.percentage,
-                            )}
+                            progress={
+                              item.percentage === 100
+                                ? 1
+                                : booksServices.HandleProgress(item.percentage)
+                            }
                             percentage={item.percentage}
                             pagesRead={item.pagesRead}
                             totalPages={item.totalPages}

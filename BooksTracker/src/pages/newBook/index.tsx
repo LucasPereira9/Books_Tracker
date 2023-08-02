@@ -11,13 +11,23 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {Dropdown} from 'react-native-element-dropdown';
 import PrimaryButton from '../../components/primaryButton';
 import database from '@react-native-firebase/database';
-import {CommonActions, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  useFocusEffect,
+  useNavigation,
+} from '@react-navigation/native';
 import booksServices from '../../services/booksServices';
+import {INavigationParams} from '../../../global/types';
 
-export default function NewBook() {
+export default function NewBook({route: {params}}: INavigationParams<any>) {
   const navigation = useNavigation();
   const [loading, setLoading] = React.useState<boolean>(false);
   const [key, setKey] = React.useState(123);
+  const [image, setImage] = React.useState<string>(
+    params?.item
+      ? params?.item.image
+      : 'https://netrinoimages.s3.eu-west-2.amazonaws.com/2022/12/11/1375341/427065/gallery_icon_3d_3d_model_c4d_max_obj_fbx_ma_lwo_3ds_3dm_stl_4405244_o.png',
+  );
 
   const getReadingBooks = async () => {
     try {
@@ -42,28 +52,24 @@ export default function NewBook() {
     {label: 'Terror', value: 'Terror'},
   ];
 
-  const [image, setImage] = React.useState<string>(
-    'https://netrinoimages.s3.eu-west-2.amazonaws.com/2022/12/11/1375341/427065/gallery_icon_3d_3d_model_c4d_max_obj_fbx_ma_lwo_3ds_3dm_stl_4405244_o.png',
-  );
-  React.useEffect(() => {
-    getReadingBooks();
-  }, []);
-
   const Inputs = [
     {
       title: 'titulo:',
       name: 'title',
       keyboard: 'default',
+      defaultVal: params?.item.title,
     },
     {
       title: 'Autor:',
       name: 'author',
       keyboard: 'default',
+      defaultVal: params?.item.author,
     },
     {
       title: 'Total de paginas:',
       name: 'pages',
       keyboard: 'numeric',
+      defaultVal: params?.item.totalPages,
     },
   ];
   const {
@@ -74,6 +80,10 @@ export default function NewBook() {
 
   const onSubmit: SubmitHandler<any> = data => {
     setLoading(true);
+
+    const date = new Date();
+    const TransformDate = date.toLocaleString();
+    const CutDate = TransformDate.substring(0, 10);
     database()
       .ref(`/userBooks/${key}`)
       .set({
@@ -82,12 +92,12 @@ export default function NewBook() {
         title: data.title,
         author: data.author,
         gender: data.gender.value,
-        status: 'lendo',
+        status: 'na estante',
         totalPages: data.pages,
-        pagesRead: '160',
+        pagesRead: '0',
+        date: CutDate,
         isPagesProgressEnabled: data.progressOption === '1' ? true : false,
-        isReading: 'null',
-        percentage: 88,
+        percentage: 0,
       })
       .then(() => {
         setLoading(false);
@@ -115,6 +125,10 @@ export default function NewBook() {
     });
   };
 
+  useFocusEffect(() => {
+    getReadingBooks();
+  });
+
   const renderItem = ({item}) => {
     return (
       <View>
@@ -130,7 +144,7 @@ export default function NewBook() {
             />
           )}
           name={item.name}
-          defaultValue=""
+          defaultValue={item.defaultVal}
         />
       </View>
     );
