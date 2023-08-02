@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, View} from 'react-native';
-import BookInfo from '../../../components/bookInfo';
+import BookInfo from '../../../components/BookInfo';
 import theme from '../../../../global/theme';
 import booksServices from '../../../services/booksServices';
 import {IBookProps} from '../book.structure';
