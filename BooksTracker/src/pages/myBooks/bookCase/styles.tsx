@@ -10,4 +10,9 @@ export const styles = StyleSheet.create({
   progressBar: {
     marginTop: '25%',
   },
+  emptyImage: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.8,
+  },
 });

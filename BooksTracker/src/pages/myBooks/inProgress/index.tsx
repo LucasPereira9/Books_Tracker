@@ -1,23 +1,33 @@
 import React from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Image, Text, View} from 'react-native';
 import BookInfo from '../../../components/BookInfo';
 import theme from '../../../../global/theme';
 import booksServices from '../../../services/booksServices';
 import {IBookProps} from '../book.structure';
 import {styles} from './styles';
 import {ProgressBar} from '@react-native-community/progress-bar-android';
+import {useNavigation} from '@react-navigation/native';
 
 export default function InProgressBoks() {
   const [test, setTest] = React.useState();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [empty, setEmpty] = React.useState<boolean>(false);
+  const navigation = useNavigation();
   const getReadingBooks = async () => {
     setLoading(true);
     try {
       const result = await booksServices.filterData('lendo');
       setTest(result);
       setLoading(false);
+      console.log(result);
+      if (result.length < 1) {
+        setEmpty(true);
+      } else {
+        setEmpty(false);
+      }
     } catch (error) {
       setLoading(false);
+      setEmpty(true);
       console.log('ERRORrec', error);
     }
   };
@@ -28,6 +38,7 @@ export default function InProgressBoks() {
     return (
       <View style={styles.renderItems}>
         <BookInfo
+          function={() => navigation.navigate('EditBook', {item})}
           icon={
             item.status === 'finalizado'
               ? 'check-square'
@@ -64,6 +75,13 @@ export default function InProgressBoks() {
               color={theme.colors.black}
               styleAttr="Normal"
               indeterminate={false}
+            />
+          </View>
+        ) : empty ? (
+          <View>
+            <Image
+              style={styles.emptyImage}
+              source={require('../../../assets/images/empty.jpg')}
             />
           </View>
         ) : (
