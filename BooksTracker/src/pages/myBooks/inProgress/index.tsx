@@ -19,7 +19,6 @@ export default function InProgressBoks() {
       const result = await booksServices.filterData('lendo');
       setTest(result);
       setLoading(false);
-      console.log(result);
       if (result.length < 1) {
         setEmpty(true);
       } else {
